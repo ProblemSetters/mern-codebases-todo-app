@@ -1,108 +1,89 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
 import { UpdateTodo } from "./updateTodo";
+import { TodoCard } from "./todoCard";
+import { deleteTodo, getTodos } from "../apis";
 
-function TodoCard({ data, handleEdit, handleDelete }) {
-    const { _id, title, description } = data;
+export function ShowTodoList({ todo, setTodo }) {
+  const [open, setOpen] = useState(false);
+  const [id, setId] = useState("");
+  const [update, setUpdate] = useState(false);
 
-    return (
-        <li key={_id}>
-            <div className="title-description">
-                <h3>{title}</h3>
-                <p>{description}</p>
-            </div>
+  // const SampleTodo = {
+  //   _id: 0,
+  //   title: "test",
+  //   description: "test",
+  // };
 
-            <div className="button-container">
-                <button className="button" name={_id} onClick={handleEdit}>
-                    edit
-                </button>
-                <button className="button" name={_id} onClick={handleDelete}>
-                    delete
-                </button>
-            </div>
-        </li>
-    );
-}
+  useEffect(() => {
+    (async () => {
+      const todos = await getTodos();
+      setTodo(todos);
+    })();
+  }, [update]);
 
-export function ShowTodoList() {
-    const [todo, setTodo] = useState([]);
-    const [open, setOpen] = useState(false);
-    const [id, setId] = useState("");
-    const [update, setUpdate] = useState(false);
+  function handleEdit(e) {
+    setId(e.target.name);
+    setOpen(true);
+  }
 
-    useEffect(
-        function () {
-            axios
-                .get("http://localhost:8001/api/todo")
-                .then((res) => {
-                    console.log(res.data);
-                    setTodo(res.data);
-                })
-                .catch((err) => {
-                    console.log(err.message);
-                });
-        },
-        [update]
-    );
+  function handleUpdate() {
+    console.log("update:", update, !update);
+    setUpdate((prev) => !prev);
+  }
 
-    function handleEdit(e) {
-        setId(e.target.name);
-        setOpen(true);
-    }
+  async function handleDelete(e) {
+    await deleteTodo(e.target.name);
+    setTodo((data) => {
+      return data.filter((todo) => todo._id !== e.target.name);
+    });
+  }
 
-    function handleUpdate() {
-        console.log("update:", update, !update);
-        setUpdate(!update);
-    }
+  function handleClose() {
+    setId("");
+    setOpen(false);
+  }
 
-    function handleDelete(e) {
-        axios.delete(`http://localhost:8001/api/todo/${e.target.name}`);
+  return (
+    <section className="container">
+      <section className="contents">
+        <h1>TODO</h1>
+        <ul className="list-container" data-testid="todo-container">
+          {todo &&
+            todo.map((data, idx) => {
+              return (
+                <TodoCard
+                  data={data}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
+                  key={idx}
+                />
+              );
+            })}
+          {/* <TodoCard
+              data={SampleTodo}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+            /> */}
+        </ul>
+      </section>
+      {open ? (
+        <section className="update-container">
+          <div className="update-contents">
+            <p onClick={handleClose} className="close">
+              &times;
+            </p>
 
-        setTodo((data) => {
-            return data.filter((todo) => todo._id !== e.target.name);
-        });
-    }
-
-    function handleClose() {
-        setId("");
-        setOpen(false);
-    }
-
-    return (
-        <section className="container">
-            <Link to="/create-todo" className="button-new">
-                <button className="button">New</button>
-            </Link>
-            <section className="contents">
-                <h1>TODO</h1>
-                <ul className="list-container">
-                    {todo.map((data) => (
-                        <TodoCard
-                            data={data}
-                            handleEdit={handleEdit}
-                            handleDelete={handleDelete}
-                        />
-                    ))}
-                </ul>
-            </section>
-            {open ? (
-                <section className="update-container">
-                    <div className="update-contents">
-                        <p onClick={handleClose} className="close">
-                            &times;
-                        </p>
-
-                        <UpdateTodo
-                            _id={id}
-                            handleClose={handleClose}
-                            handleUpdate={handleUpdate}
-                        />
-                    </div>
-                </section>
-            ) : (
-                ""
-            )}
+            <UpdateTodo
+              _id={id}
+              handleClose={handleClose}
+              handleUpdate={handleUpdate}
+            />
+          </div>
         </section>
-    );
+      ) : (
+        ""
+      )}
+    </section>
+  );
 }

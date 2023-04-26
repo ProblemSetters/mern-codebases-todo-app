@@ -1,17 +1,16 @@
-import { BrowserRouter, Route } from "react-router-dom";
+import { useState } from "react";
 import { ShowTodoList } from "./components/showTodoList";
 import { CreateTodo } from "./components/createTodo";
 import "./App.css";
-
 function App() {
-    return (
-		<div className="app-contents">
-			<BrowserRouter>
-					<Route path="/" component={ShowTodoList} />
-					<Route path="/create-todo" component={CreateTodo} />
-				</BrowserRouter>
-			</div>
-    );
+  const [todo, setTodo] = useState([]);
+
+  return (
+    <div className="app-contents">
+      <CreateTodo todo={todo} setTodo={setTodo} />
+      <ShowTodoList todo={todo} setTodo={setTodo} />
+    </div>
+  );
 }
 
 export default App;
