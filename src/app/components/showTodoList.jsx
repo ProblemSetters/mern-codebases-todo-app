@@ -20,7 +20,7 @@ export function ShowTodoList({ todo, setTodo }) {
       const todos = await getTodos();
       setTodo(todos);
     })();
-  }, [update]);
+  }, []);
 
   function handleEdit(e) {
     setId(e.target.name);
@@ -57,6 +57,7 @@ export function ShowTodoList({ todo, setTodo }) {
                   handleEdit={handleEdit}
                   handleDelete={handleDelete}
                   key={idx}
+                  testId={idx}
                 />
               );
             })}

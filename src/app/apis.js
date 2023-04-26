@@ -14,18 +14,16 @@ export const getTodos = async () => {
 
 export const addTodo = async (data) => {
   const baseURL = generateBaseURL();
-  let newTodos = [];
-  axios
-    .post(`${baseURL}`, data)
-    .then((res) => {
-      console.log(res.data);
-      newTodos = [...res.data];
-    })
-    .catch((err) => {
-      console.log("Error couldn't create TODO");
-      console.log(err.message);
-    });
-  return newTodos;
+  let newTodo = {};
+  try {
+    const res = await axios.post(`${baseURL}`, data);
+    console.log(res.data);
+    newTodo = { ...res.data.data };
+  } catch (error) {
+    console.log("Error couldn't create TODO");
+    console.log(error.message);
+  }
+  return newTodo;
 };
 
 export const updateTodo = async (_id, data) => {

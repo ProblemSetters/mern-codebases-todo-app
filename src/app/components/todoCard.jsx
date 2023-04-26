@@ -1,10 +1,10 @@
 import React from "react";
 
-export function TodoCard({ data, handleEdit, handleDelete }) {
+export function TodoCard({ data, handleEdit, handleDelete, testId }) {
   const { _id, title, description } = data;
 
   return (
-    <li key={_id}>
+    <li key={testId} data-testid={`todo-${testId}`}>
       <div className="title-description">
         <h3>{title}</h3>
         <p>{description}</p>

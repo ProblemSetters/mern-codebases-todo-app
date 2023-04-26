@@ -11,12 +11,10 @@ export function CreateTodo({ todo, setTodo }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    const newTodo = await addTodo(data);
+    console.log(newTodo);
+    setTodo([...todo, newTodo]);
     setData({ title: "", description: "" });
-    await addTodo(data)
-      .then(() => getTodos())
-      .then((res) => {
-        setTodo([...res]);
-      });
   }
 
   return (

@@ -2,13 +2,7 @@
 /* eslint-disable testing-library/no-node-access */
 /* eslint-disable testing-library/no-unnecessary-act */
 import React from "react";
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 
@@ -33,14 +27,14 @@ const server = setupServer(
   }),
   rest.post(`http://localhost/api/todo`, (req, res, ctx) => {
     return res(
-      ctx.json([
-        ...initialTodos,
-        {
+      ctx.json({
+        message: "todo added successfully",
+        data: {
           _id: "64495cdef4b2b2d4bee7618b",
           title: "Todo 3",
           description: "Todo 3",
         },
-      ])
+      })
     );
   })
 );
@@ -88,7 +82,7 @@ test("Adds a todo successfully", async () => {
   fireEvent.change(descriptionInput, { target: { value: "Test 3" } });
   fireEvent.click(submitButton);
 
-  await waitFor(() => jest.setTimeout(2000));
+  await screen.findByTestId("todo-2");
 
   const todos = await screen.findByTestId(TEST_IDS.todoContainer);
   expect(todos.childElementCount).toBe(3);
@@ -101,7 +95,7 @@ test("Adds a todo successfully", async () => {
       description: "Todo 3",
     },
   ];
-  for (let i = 0; i < todos.childElementCount; i++) {
+  for (let i = 0; i < newTodos.childElementCount; i++) {
     expect(todos.children[i].children[0].children[0]).toHaveTextContent(
       newTodos[i].title
     );
