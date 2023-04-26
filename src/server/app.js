@@ -14,16 +14,16 @@ connectDB();
 // cors
 app.use(cors({ origin: true, credentials: true }));
 
+
 // initialize middleware
 app.use(express.json({ extended: false }));
-app.get("/", (req, res) => res.send("server is active"));
 
 // use routes
 app.use("/api/todo", todo);
 
 // setting up port
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8001;
 
 app.listen(PORT, () => {
     console.log(`server is running on http://localhost:${PORT}`);

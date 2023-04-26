@@ -6,10 +6,11 @@ exports.getAllTodo = (req, res) => {
             console.log({ todo });
             res.json(todo);
         })
-        .catch((err) =>
-            res
-                .status(404)
-                .json({ message: "no todo found", error: err.message })
+		.catch((err) => {
+			res
+				.status(404)
+				.json({ message: "no todo found", error: err.message })
+		}
         );
 };
 
