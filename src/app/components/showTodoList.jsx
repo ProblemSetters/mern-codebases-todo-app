@@ -47,7 +47,7 @@ export function ShowTodoList({ todo, setTodo }) {
   return (
     <section className="container">
       <section className="contents">
-        <h1>TODO</h1>
+        <h1>TODOS</h1>
         <ul className="list-container" data-testid="todo-container">
           {todo &&
             todo.map((data, idx) => {
