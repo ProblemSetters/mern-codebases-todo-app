@@ -30,10 +30,9 @@ button {
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 8rem 1.6fr;
+  grid-template-rows: 5rem 1.6fr;
   gap: 0px 0px;
   grid-template-areas: "button-back . button-new" "contents contents contents";
-  max-height: max-content;
 }
 
 .button,
@@ -51,15 +50,6 @@ button {
 .button {
   display: flex;
   margin: 0;
-}
-
-.button-back,
-.button-new {
-  width: 8rem;
-}
-
-.button-back {
-  grid-area: button-back;
 }
 
 .button-new {
@@ -151,7 +141,7 @@ button {
 
 .update-container {
   position: absolute;
-  top: 0;
+  top: 100;
   left: 0;
   height: 100vh;
   width: 100vw;

@@ -41,5 +41,5 @@ export const updateTodo = async (_id, data) => {
 
 export const deleteTodo = async (name) => {
   const baseURL = generateBaseURL();
-  await axios.delete(`${baseURL}/${name}`);
+	await axios.delete(`${baseURL}/${name}`).then(() => getTodos())
 };
