@@ -60,9 +60,9 @@ exports.deleteTodo = (req, res) => {
     });
 };
 
-exports.completeTodo = (req, res) => {
+exports.completeTodo = (req, res, data) => {
   Todo.findByIdAndUpdate(req._id, { updated: req.body.updated })
-    .then((data) => {
+    .then(() => {
       res.json({ message: "todo status updated successfully", data });
     })
     .catch((err) => {
