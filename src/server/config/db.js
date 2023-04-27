@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const db = "mongodb://120.0.0.1:27017/todo_app"
+const db = "mongodb://127.0.0.1:27017/todo_app"
 
 const connectDB = async () => {
     try {
