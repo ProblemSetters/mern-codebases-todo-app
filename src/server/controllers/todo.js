@@ -46,6 +46,26 @@ exports.deleteTodo = (req, res) => {
       res.json({ message: "todo deleted successfully", data });
     })
     .catch((err) => {
-      res.status(404).json({ error: "book not found", message: err.message });
+      res.status(404).json({ error: "todo not found", message: err.message });
+    });
+};
+
+exports.deleteTodo = (req, res) => {
+  Todo.findByIdAndRemove(req.params.id, req.body)
+    .then((data) => {
+      res.json({ message: "todo deleted successfully", data });
+    })
+    .catch((err) => {
+      res.status(404).json({ error: "todo not found", message: err.message });
+    });
+};
+
+exports.completeTodo = (req, res, data) => {
+  Todo.findByIdAndUpdate(req._id, { updated: req.body.updated })
+    .then(() => {
+      res.json({ message: "todo status updated successfully", data });
+    })
+    .catch((err) => {
+      res.status(404).json({ error: "todo not found", message: err.message });
     });
 };
