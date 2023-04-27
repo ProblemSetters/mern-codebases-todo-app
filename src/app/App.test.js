@@ -49,24 +49,40 @@ const TEST_IDS = {
   descriptionInput: "description-input",
   submitButton: "submit-button",
 };
-test("Displays the correct UI on render", async () => {
-  await act(async () => {
-    render(<App />);
-  });
-  await screen.findByTestId(TEST_IDS.todoContainer);
 
-  const todos = await screen.findByTestId(TEST_IDS.todoContainer);
+test("Input works correctly and adds new todo in the list", async () => {
+	await act(async () => {
+		render(<App />);
+	});
 
-  expect(todos.childElementCount).toBe(2);
+	const reloadFn = () => {
+		window.location.reload();
+	}
 
-  for (let i = 0; i < todos.childElementCount; i++) {
-    expect(todos.children[i].children[0].children[0]).toHaveTextContent(
-      initialTodos[i].title
-    );
-    expect(todos.children[i].children[0].children[1]).toHaveTextContent(
-      initialTodos[i].description
-    );
-  }
+	const titleInput = screen.getByTestId(TEST_IDS.titleInput);
+	const descriptionInput = screen.getByTestId(TEST_IDS.descriptionInput);
+	const submitButton = screen.getByTestId(TEST_IDS.submitButton);
+
+	fireEvent.change(titleInput, { target: { value: "Test 3" } });
+	fireEvent.change(descriptionInput, { target: { value: "Test 3" } });
+	fireEvent.click(submitButton);
+
+	reloadFn();
+
+	await screen.findByTestId(TEST_IDS.todoContainer);
+
+	const todos = await screen.findByTestId(TEST_IDS.todoContainer);
+
+	expect(todos.childElementCount).toBe(3);
+
+	for (let i = 0; i < todos.childElementCount; i++) {
+		expect(todos.children[i].children[0].children[0]).toHaveTextContent(
+			initialTodos[i].title
+		);
+		expect(todos.children[i].children[0].children[1]).toHaveTextContent(
+			initialTodos[i].description
+		);
+	}
 });
 
 test("Adds a todo successfully", async () => {
