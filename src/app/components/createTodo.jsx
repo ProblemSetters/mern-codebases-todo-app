@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import { addTodo, getTodos } from "../apis";
+import { addTodo } from "../apis";
 
-export function CreateTodo({ todo, setTodo }) {
+export function CreateTodo() {
   const [data, setData] = useState({ title: "", description: "" });
 
   function handleChange(e) {
@@ -11,9 +11,7 @@ export function CreateTodo({ todo, setTodo }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const newTodo = await addTodo(data);
-    console.log(newTodo);
-    setTodo([...todo, newTodo]);
+    await addTodo(data);
     setData({ title: "", description: "" });
   }
 

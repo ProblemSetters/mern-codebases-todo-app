@@ -4,7 +4,8 @@ import { UpdateTodo } from "./updateTodo";
 import { TodoCard } from "./todoCard";
 import { deleteTodo, getTodos } from "../apis";
 
-export function ShowTodoList({ todo, setTodo }) {
+export function ShowTodoList() {
+  const [todo, setTodo] = useState([]);
   const [open, setOpen] = useState(false);
   const [id, setId] = useState("");
   const [update, setUpdate] = useState(false);
