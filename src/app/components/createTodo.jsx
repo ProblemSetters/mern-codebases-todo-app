@@ -3,11 +3,8 @@ import { useState } from "react";
 import { addTodo } from "../apis";
 
 export function CreateTodo() {
-  const [data, setData] = useState({ title: "", description: "" });
 
-  function handleChange(e) {
-    setData((data) => ({ ...data, [e.target.name]: e.target.value }));
-  }
+	const [data, setData] = useState({ title: "", description: "" });
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -27,8 +24,7 @@ export function CreateTodo() {
             <input
               type="text"
               name="title"
-              value={data.title}
-              onChange={handleChange}
+              value="title"
               className="input"
               data-testid="title-input"
             />
@@ -38,8 +34,7 @@ export function CreateTodo() {
             <input
               type="text"
               name="description"
-              value={data.description}
-              onChange={handleChange}
+              value="description"
               data-testid="description-input"
               className="input"
             />
