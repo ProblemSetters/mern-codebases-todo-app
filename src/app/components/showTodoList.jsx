@@ -10,11 +10,11 @@ export function ShowTodoList() {
   const [id, setId] = useState("");
   const [update, setUpdate] = useState(false);
 
-  // const SampleTodo = {
-  //   _id: 0,
-  //   title: "test",
-  //   description: "test",
-  // };
+  const SampleTodo = {
+    _id: 0,
+    title: "test",
+    description: "test",
+  };
 
   useEffect(() => {
     (async () => {
@@ -50,23 +50,11 @@ export function ShowTodoList() {
       <section className="contents">
         <h1>TODOS</h1>
         <ul className="list-container" data-testid="todo-container">
-          {todo &&
-            todo.map((data, idx) => {
-              return (
-                <TodoCard
-                  data={data}
-                  handleEdit={handleEdit}
-                  handleDelete={handleDelete}
-                  key={idx}
-                  testId={idx}
-                />
-              );
-            })}
-          {/* <TodoCard
+          <TodoCard
               data={SampleTodo}
               handleEdit={handleEdit}
               handleDelete={handleDelete}
-            /> */}
+            />
         </ul>
       </section>
       {open ? (
